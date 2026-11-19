@@ -111,12 +111,15 @@ Por padrão, `offline` rotula as anotações com regras locais, sem chave. Para 
 | `openai` | `OPENAI_API_KEY` | `gpt-4o-mini` |
 | `gemini` | `GEMINI_API_KEY` | `gemini-3.5-flash-lite` |
 | `opencode` | `OPENCODE_API_KEY` | `mistral-large-4` |
+| `deepseek` | `DEEPSEEK_API_KEY` | `deepseek-flash` |
 
 Use uma chave da [API da OpenAI](https://platform.openai.com/api-keys) para o adapter `openai`. Defina `LLM_MODELO` se quiser usar outro modelo compatível com o provedor selecionado.
 
 Crie a chave do Gemini no [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 Para `opencode`, crie uma chave no [OpenCode Console](https://opencode.ai/console). O adapter usa a [API hospedada de Chat Completions](https://opencode.ai/docs/console/api/inference/) com um modelo pago de texto compatível, como o sugerido na tabela. Os modelos gratuitos de chat exigem o cliente OpenCode.
+
+Crie a chave do DeepSeek no [painel da API](https://platform.deepseek.com/api_keys).
 
 O Python lê as variáveis do ambiente. No Bash ou Zsh, carregue o arquivo antes de rodar a etapa (que pressupõe uma extração já executada para o mês):
 

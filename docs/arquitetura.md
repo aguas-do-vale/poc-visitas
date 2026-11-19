@@ -53,7 +53,7 @@ Toda etapa: valida contrato na entrada e na saída, grava pendência em vez de d
 | Armazenamento | `ArmazenamentoLocalParquet` | S3/GCS, data warehouse | classe nova com os mesmos métodos de `Armazenamento` |
 | Orquestração | `src/pipeline.py` (CLI) | Airflow, Prefect, Step Functions | uma task por entrada de `ETAPAS`; cada uma já é idempotente por partição |
 | Processamento | pandas em uma máquina (500 mil ligações em ~40 s) | Spark/DuckDB/Polars se passar de dezenas de milhões de linhas de consumo | `features.py` e `extract.py` são os únicos que tocam o volume grande |
-| LLM | regras offline, Anthropic, OpenAI, Gemini ou OpenCode | outro fornecedor | classe nova com `rotular(prompt) -> RotuloVisita` |
+| LLM | regras offline, Anthropic, OpenAI, Gemini, OpenCode ou DeepSeek | outro fornecedor | classe nova com `rotular(prompt) -> RotuloVisita` |
 | Contratos | `src/contracts/` | Great Expectations, schema registry | os contratos já são dados: dá para exportar |
 
 ## Idempotência e identidade

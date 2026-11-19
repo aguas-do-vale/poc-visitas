@@ -154,4 +154,8 @@ def criar_cliente(cfg_llm: dict) -> ClienteLLM:
         from .opencode import ClienteOpenCode
 
         return ClienteOpenCode(os.environ.get("LLM_MODELO") or "mistral-large-4")
+    if provedor == "deepseek":
+        from .deepseek import ClienteDeepSeek
+
+        return ClienteDeepSeek(os.environ.get("LLM_MODELO") or "deepseek-flash")
     raise ValueError(f"provedor de LLM desconhecido: {provedor}")
