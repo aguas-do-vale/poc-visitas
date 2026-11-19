@@ -150,4 +150,8 @@ def criar_cliente(cfg_llm: dict) -> ClienteLLM:
         from .gemini import ClienteGemini
 
         return ClienteGemini(os.environ.get("LLM_MODELO") or "gemini-3.5-flash-lite")
+    if provedor == "opencode":
+        from .opencode import ClienteOpenCode
+
+        return ClienteOpenCode(os.environ.get("LLM_MODELO") or "mistral-large-4")
     raise ValueError(f"provedor de LLM desconhecido: {provedor}")
