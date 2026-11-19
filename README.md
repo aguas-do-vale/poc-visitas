@@ -103,4 +103,22 @@ Desvios em relação aos nomes sugeridos: `regra_antiga.py` e `comum.py` foram a
 
 ## Provedor real de LLM
 
-`cp .env.example .env`, defina `LLM_PROVEDOR=anthropic` e `ANTHROPIC_API_KEY`. O modo usado fica registrado em `fonte_rotulo`. O adapter real **não foi exercitado** nesta PoC (sem chave): o modo offline é o caminho testado.
+Por padrão, `offline` rotula as anotações com regras locais, sem chave. Para usar uma API, instale as dependências opcionais com `pip install -e '.[llm]'`, copie `.env.example` para `.env` e preencha `LLM_PROVEDOR` e a chave correspondente.
+
+| `LLM_PROVEDOR` | Variável da chave | Modelo padrão |
+|---|---|---|
+| `anthropic` | `ANTHROPIC_API_KEY` | `claude-haiku-5-5` (configurado em `config.yaml`) |
+| `openai` | `OPENAI_API_KEY` | `gpt-4o-mini` |
+
+Use uma chave da [API da OpenAI](https://platform.openai.com/api-keys) para o adapter `openai`. Defina `LLM_MODELO` se quiser usar outro modelo compatível com o provedor selecionado.
+
+O Python lê as variáveis do ambiente. No Bash ou Zsh, carregue o arquivo antes de rodar a etapa (que pressupõe uma extração já executada para o mês):
+
+```bash
+set -a
+source ./.env
+set +a
+python -m src.pipeline --mes 2026-08 --etapa rotulagem
+```
+
+O provedor recebe o texto mascarado das inspeções. Consulte a fonte e o modelo no painel de rótulos. Para que o custo estimado reflita seu modelo, ajuste `llm.preco_por_milhao_tokens` em `config.yaml`. Os resultados calibrados da PoC usam o modo offline.
