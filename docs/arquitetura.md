@@ -53,11 +53,11 @@ Toda etapa: valida contrato na entrada e na saída, grava pendência em vez de d
 | Armazenamento | `ArmazenamentoLocalParquet` | S3/GCS, data warehouse | classe nova com os mesmos métodos de `Armazenamento` |
 | Orquestração | `src/pipeline.py` (CLI) | Airflow, Prefect, Step Functions | uma task por entrada de `ETAPAS`; cada uma já é idempotente por partição |
 | Processamento | pandas em uma máquina (500 mil ligações em ~40 s) | Spark/DuckDB/Polars se passar de dezenas de milhões de linhas de consumo | `features.py` e `extract.py` são os únicos que tocam o volume grande |
-| LLM | regras offline ou Anthropic | outro fornecedor | classe nova com `rotular(prompt) -> RotuloVisita` |
+| LLM | regras offline, Anthropic, OpenAI ou Gemini | outro fornecedor | classe nova com `rotular(prompt) -> RotuloVisita` |
 | Contratos | `src/contracts/` | Great Expectations, schema registry | os contratos já são dados: dá para exportar |
 
 ## Idempotência e identidade
 
 - Reexecutar o mesmo mês **substitui** a partição (não duplica).
 - `run_id` identifica a execução e fica no manifesto e na coluna `run_id` das pendências.
-- O cache de rótulos é por `hash(anotação mascarada + versão do prompt + modelo)`.
+- O cache de rótulos combina anotação mascarada, versão do prompt e modelo. Os novos adapters também incluem o provedor na chave, preservando as entradas existentes.
