@@ -52,8 +52,8 @@ saidas:
 
 # --- Rotulagem ---
 llm:
-  provedor: offline               # offline | anthropic (env LLM_PROVEDOR sobrescreve)
-  modelo: claude-haiku-5-5
+  provedor: offline               # offline | anthropic | openai | gemini | opencode (LLM_PROVEDOR sobrescreve)
+  modelo: claude-haiku-5-5         # padrão do Anthropic (LLM_MODELO sobrescreve)
   prompt: prompts/rotulagem_v1.txt
   versao_prompt: v1
   tentativas: 3
