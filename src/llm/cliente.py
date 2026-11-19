@@ -146,4 +146,8 @@ def criar_cliente(cfg_llm: dict) -> ClienteLLM:
         from .openai import ClienteOpenAI
 
         return ClienteOpenAI(os.environ.get("LLM_MODELO") or "gpt-4o-mini")
+    if provedor == "gemini":
+        from .gemini import ClienteGemini
+
+        return ClienteGemini(os.environ.get("LLM_MODELO") or "gemini-3.5-flash-lite")
     raise ValueError(f"provedor de LLM desconhecido: {provedor}")

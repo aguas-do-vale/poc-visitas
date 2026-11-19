@@ -109,8 +109,11 @@ Por padrão, `offline` rotula as anotações com regras locais, sem chave. Para 
 |---|---|---|
 | `anthropic` | `ANTHROPIC_API_KEY` | `claude-haiku-5-5` (configurado em `config.yaml`) |
 | `openai` | `OPENAI_API_KEY` | `gpt-4o-mini` |
+| `gemini` | `GEMINI_API_KEY` | `gemini-3.5-flash-lite` |
 
 Use uma chave da [API da OpenAI](https://platform.openai.com/api-keys) para o adapter `openai`. Defina `LLM_MODELO` se quiser usar outro modelo compatível com o provedor selecionado.
+
+Crie a chave do Gemini no [Google AI Studio](https://aistudio.google.com/app/apikey).
 
 O Python lê as variáveis do ambiente. No Bash ou Zsh, carregue o arquivo antes de rodar a etapa (que pressupõe uma extração já executada para o mês):
 

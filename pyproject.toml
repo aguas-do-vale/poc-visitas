@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-llm = ["anthropic>=0.30", "openai>=1.60"]
+llm = ["anthropic>=0.30", "openai>=1.60", "google-genai>=1.50.0"]
 
 [tool.setuptools]
 packages = []   # projeto roda da raiz (python -m src.pipeline); o pip só instala dependências
