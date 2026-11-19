@@ -142,4 +142,20 @@ def criar_cliente(cfg_llm: dict) -> ClienteLLM:
         return ClienteOffline()
     if provedor == "anthropic":
         return ClienteAnthropic(os.environ.get("LLM_MODELO", cfg_llm["modelo"]))
+    if provedor == "openai":
+        from .openai import ClienteOpenAI
+
+        return ClienteOpenAI(os.environ.get("LLM_MODELO") or "gpt-4o-mini")
+    if provedor == "gemini":
+        from .gemini import ClienteGemini
+
+        return ClienteGemini(os.environ.get("LLM_MODELO") or "gemini-3.5-flash-lite")
+    if provedor == "opencode":
+        from .opencode import ClienteOpenCode
+
+        return ClienteOpenCode(os.environ.get("LLM_MODELO") or "mistral-large-4")
+    if provedor == "deepseek":
+        from .deepseek import ClienteDeepSeek
+
+        return ClienteDeepSeek(os.environ.get("LLM_MODELO") or "deepseek-flash")
     raise ValueError(f"provedor de LLM desconhecido: {provedor}")

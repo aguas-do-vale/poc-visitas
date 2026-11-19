@@ -2,8 +2,7 @@
 
 Decisões:
 * o LLM só vê texto JÁ mascarado (feito na extração);
-* só textos ÚNICOS são rotulados, e o resultado é guardado em cache por
-  hash(anotação mascarada + versão do prompt + modelo): reexecutar custa zero;
+* só textos ÚNICOS são rotulados, com cache separado por provedor, modelo e versão do prompt;
 * JSON inválido -> nova tentativa (limite configurável) -> pendência; timeout -> espera
   exponencial; nada é descartado em silêncio.
 """
@@ -22,8 +21,12 @@ from .contracts import RotuloVisita
 from .llm.cliente import ClienteLLM, RespostaInvalida, TimeoutLLM, criar_cliente, montar_prompt
 
 
-def chave_cache(texto: str, versao_prompt: str, modelo: str | None) -> str:
-    return hashlib.sha256(f"{texto}|{versao_prompt}|{modelo}".encode()).hexdigest()
+def chave_cache(texto: str, versao_prompt: str, modelo: str | None,
+                provedor: str | None = None) -> str:
+    chave = f"{texto}|{versao_prompt}|{modelo}"
+    if provedor is not None:
+        chave = f"{chave}|{provedor}"
+    return hashlib.sha256(chave.encode()).hexdigest()
 
 
 class CacheRotulos:
@@ -68,7 +71,8 @@ def executar(ctx: Contexto, cliente: ClienteLLM | None = None) -> dict:
     alvo = os_[(os_["tipo_os"] == "inspecao") & os_["anotacao_mascarada"].notna()].copy()
 
     cache = CacheRotulos(Path(ctx.cfg["armazenamento"]["raiz"]).parent / "cache" / "rotulos.jsonl")
-    alvo["_k"] = [chave_cache(t, versao, cliente.modelo) for t in alvo["anotacao_mascarada"]]
+    provedor = getattr(cliente, "provedor", None)
+    alvo["_k"] = [chave_cache(t, versao, cliente.modelo, provedor) for t in alvo["anotacao_mascarada"]]
     unicos = alvo.drop_duplicates("_k")[["_k", "anotacao_mascarada"]]
     faltam = unicos[~unicos["_k"].isin(cache.mem)]
     hits = len(unicos) - len(faltam)
