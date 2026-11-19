@@ -142,4 +142,8 @@ def criar_cliente(cfg_llm: dict) -> ClienteLLM:
         return ClienteOffline()
     if provedor == "anthropic":
         return ClienteAnthropic(os.environ.get("LLM_MODELO", cfg_llm["modelo"]))
+    if provedor == "openai":
+        from .openai import ClienteOpenAI
+
+        return ClienteOpenAI(os.environ.get("LLM_MODELO") or "gpt-4o-mini")
     raise ValueError(f"provedor de LLM desconhecido: {provedor}")

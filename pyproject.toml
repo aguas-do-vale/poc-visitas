@@ -9,7 +9,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-llm = ["anthropic>=0.30"]
+llm = ["anthropic>=0.30", "openai>=1.60"]
 
 [tool.setuptools]
 packages = []   # projeto roda da raiz (python -m src.pipeline); o pip só instala dependências
